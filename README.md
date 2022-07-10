@@ -22,6 +22,11 @@ options:
                         output header file path example: ./dataset/plants_merged/data.yaml
   -n NAME, --name NAME  name format {original_name} is original name, {label_name} is label name, {index} is index
                         example: plant_{label_name}_{index} default: {original_name}_{index}
+  -m MARGE_LABEL [MARGE_LABEL ...], --marge-label MARGE_LABEL [MARGE_LABEL ...]
+                        marge label example: lettuce.leaf:lettuce tomato.leaf,tomato.healthy.leaf:tomato.fruit
+  -e, --ignore-empty-label
+                        ignore empty label
+
 ```
 
 ```shell
@@ -30,7 +35,9 @@ python3.10 yolov5_dataset_merge.py \
 -O ./dataset/plants_merged/train \ # output dataset directory
 -i ./dataset/plants/data.yaml \ # input header file
 -o ./dataset/plants_merged/data.yaml \ # output header file
--n {label_name}_{index} # name format
+-n {label_name}_{index} \ # name format
+-m lettuce.leaf:lettuce tomato.leaf,tomato.healthy.leaf:tomato.fruit \ # marge labels
+-e # ignore empty label
 
 eggplants_fruit: 0 -> 7
 eggplants_flower: 1 -> 8
