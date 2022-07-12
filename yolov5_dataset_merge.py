@@ -54,19 +54,20 @@ def main(
 
         index_map[i] = index
 
-    for mlabel in marge_label:
-        in_labels, out_label = mlabel.split(':')
-        in_labels = in_labels.split(',')
-        out_index = find(output_names, out_label)
+    if marge_label:
+        for mlabel in marge_label:
+            in_labels, out_label = mlabel.split(':')
+            in_labels = in_labels.split(',')
+            out_index = find(output_names, out_label)
 
-        for in_label in in_labels:
-            in_index = find(input_names, in_label)
-            
-            if in_index == -1 or out_index == -1:
-                print(f'no match: {in_label}({in_index}) -> {out_label}({out_index})')
-                return
+            for in_label in in_labels:
+                in_index = find(input_names, in_label)
+                
+                if in_index == -1 or out_index == -1:
+                    print(f'no match: {in_label}({in_index}) -> {out_label}({out_index})')
+                    return
 
-            index_map[in_index] = out_index
+                index_map[in_index] = out_index
 
     for i, o in index_map.items():
         in_name = input_names[i]
