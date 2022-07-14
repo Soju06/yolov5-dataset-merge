@@ -75,8 +75,8 @@ def main(
         print(f'{out_name}{f"({in_name})" if in_name != out_name else ""}: {i} -> {o}')
     
     print('\n')
-    empty_str = ' ' * 20
-    empty_strs = ' ' * 80 + '\n'
+    empty_strs_len = 80
+    empty_strs = ' ' * empty_strs_len + '\n'
 
     input_labels = glob(join(input_labels_path, '*.txt'))
     input_labels_len = len(input_labels)
@@ -120,7 +120,14 @@ def main(
 
         sys.stdout.write(empty_strs)
         sys.stdout.write("\033[F")
-        sys.stdout.write(f'{name} -> {file_name}\t{i+1}/{input_labels_len}\t[{"■"*int(15*proc_per)}{" "*(15-int(15*proc_per))}] {proc_per*100:.2f}%{empty_str}\r\n\033[F')
+        info_len = sys.stdout.write(f'{name} -> {file_name}\t{i+1}/{input_labels_len}\t[{"■"*int(15*proc_per)}{" "*(15-int(15*proc_per))}] {proc_per*100:.2f}%')
+
+        if info_len > empty_strs_len:
+            empty_strs = ' ' * info_len + '\n'
+            empty_strs_len = info_len
+
+        sys.stdout.write(' ' * (empty_strs_len - info_len))
+        sys.stdout.write('\r\n\033[F')
 
 parser = argparse.ArgumentParser(description='Merge YOLOv5 dataset')
 parser.add_argument('-I', '--input-dir', type=str, required=True, help='input dataset directory path\nexample: ./dataset/plants/train')
